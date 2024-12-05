@@ -1,0 +1,13 @@
+This directory is for application resources:
+
+- icon.ico - Windows application icon (48x48 or 256x256 recommended)
+- icon.icns - macOS application icon bundle
+
+You can replace these with your own icons before building.
+
+Icon requirements:
+- Windows (.ico): 48x48 or 256x256 pixels recommended
+- macOS (.icns): Must be an Apple Icon Image format
+- Linux: No specific icon needed, will use system theme
+
+Note: The build process will work without icons, they are optional.

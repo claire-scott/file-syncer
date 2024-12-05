@@ -1,0 +1,12 @@
+# Core dependencies
+watchdog>=2.1.0
+
+# Build dependencies
+pyinstaller>=5.0.0
+cx_freeze>=6.0
+auto-py-to-exe>=2.0.0
+
+# Development dependencies
+pytest>=7.0.0
+black>=22.0.0
+flake8>=4.0.0
