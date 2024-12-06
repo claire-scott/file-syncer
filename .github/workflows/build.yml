@@ -4,9 +4,14 @@ on:
   push:
     tags:
       - 'v*' # Trigger on version tags
+    branches:
+      - main
+      - master
 
 jobs:
   build:
+    # Only run if the tag was created on main/master branch
+    if: github.ref_type == 'tag' && (github.ref_name == 'main' || github.ref_name == 'master')
     name: Build ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     strategy:

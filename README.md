@@ -84,18 +84,29 @@ A Python application for synchronizing folders with real-time monitoring capabil
 
 The project uses GitHub Actions to automatically build and release executables for Windows, Linux, and macOS.
 
-### Release Process
+### Creating a New Release
 
+You can create a new release in two ways:
+
+#### Method 1: Through GitHub's Website
+1. Go to your repository on GitHub
+2. Click on "Releases" on the right side
+3. Click "Create a new release"
+4. Create a new tag (e.g., "v1.0.0") in the tag field
+5. Fill in the release title and description
+6. Click "Publish release"
+
+#### Method 2: Using Git Command Line
 1. Create and push a new version tag:
    ```bash
    git tag -a v1.0.0 -m "Release version 1.0.0"
    git push origin v1.0.0
    ```
 
-2. The GitHub Actions workflow will automatically:
-   - Build executables for all platforms
-   - Create a new GitHub release
-   - Upload the built executables as release assets
+Both methods will trigger the GitHub Actions workflow to:
+- Build executables for all platforms
+- Create a new GitHub release
+- Upload the built executables as release assets
 
 ### Available Builds
 
