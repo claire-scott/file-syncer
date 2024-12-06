@@ -80,6 +80,30 @@ A Python application for synchronizing folders with real-time monitoring capabil
 └── .gitignore        # Git ignore patterns
 ```
 
+## Automated Builds and Releases
+
+The project uses GitHub Actions to automatically build and release executables for Windows, Linux, and macOS.
+
+### Release Process
+
+1. Create and push a new version tag:
+   ```bash
+   git tag -a v1.0.0 -m "Release version 1.0.0"
+   git push origin v1.0.0
+   ```
+
+2. The GitHub Actions workflow will automatically:
+   - Build executables for all platforms
+   - Create a new GitHub release
+   - Upload the built executables as release assets
+
+### Available Builds
+
+Each release includes pre-built executables for:
+- Windows (file-syncer-windows.exe)
+- Linux (file-syncer-linux)
+- macOS (file-syncer-macos)
+
 ## Building from Source
 
 ### Prerequisites
