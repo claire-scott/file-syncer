@@ -6,15 +6,21 @@ from lib.config_manager import ConfigManager
 import sys
 import logging
 import datetime
+import codecs
+
+# Configure stderr to handle Unicode
+if sys.stderr.encoding != 'utf-8':
+    sys.stderr = codecs.getwriter('utf-8')(sys.stderr.buffer, 'strict')
 
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.StreamHandler(sys.stderr),  # Log to stderr
+        logging.StreamHandler(sys.stderr),  # Log to stderr with UTF-8 encoding
         logging.FileHandler(  # Also log to a daily rotating file
-            f'syncer_{datetime.datetime.now().strftime("%Y%m%d")}.log'
+            f'syncer_{datetime.datetime.now().strftime("%Y%m%d")}.log',
+            encoding='utf-8'
         )
     ]
 )
@@ -73,18 +79,26 @@ def main():
         # Create message handler
         message_handler = MessageHandler()
         
-        # Create sync engine and set it in message handler
-        sync_engine = SyncEngine(message_handler)
-        message_handler.set_sync_engine(sync_engine)
+        # Create UI first
+        ui = SyncerUI(root, None, None, config_manager)
         
-        # Create file monitor
+        # Create components with message handler
+        sync_engine = SyncEngine(message_handler)
         file_monitor = FileMonitor(message_handler)
         
-        # Create UI with all required components
-        ui = SyncerUI(root, sync_engine, file_monitor, config_manager)
+        # Update UI with component references
+        ui.sync_engine = sync_engine
+        ui.file_monitor = file_monitor
         
-        # Set UI reference in message handler
+        # Update message handler with references
         message_handler.set_ui(ui)
+        message_handler.set_sync_engine(sync_engine)
+        
+        # Update sync engine with UI reference
+        sync_engine.ui = ui
+        
+        # Initialize monitoring after all components are set up
+        ui.initialize_monitoring()
         
         logging.info("Application started successfully")
         root.mainloop()

@@ -21,6 +21,23 @@ class SyncEngine:
             logging.error(f"Failed to read .gitignore at {gitignore_path}: {str(e)}")
         return patterns
         
+    def should_exclude_file(self, path):
+        """Check if a file should be excluded based on current patterns"""
+        try:
+            # Get the source folder from the UI
+            source_folder = self.app.ui.left_folder_var.get()
+            if not source_folder:
+                return False
+                
+            # Get patterns from UI and gitignore
+            gitignore_patterns = self.read_gitignore(source_folder)
+            additional_patterns = [p.strip() for p in self.app.ui.exclusions_text.get("1.0", "end").split('\n') if p.strip()]
+            
+            return self.should_exclude(path, source_folder, gitignore_patterns, additional_patterns)
+        except Exception as e:
+            logging.error(f"Error checking exclusions for {path}: {str(e)}")
+            return False
+        
     def should_exclude(self, path, base_path, gitignore_patterns, additional_patterns):
         try:
             relative_path = os.path.relpath(path, base_path)
@@ -120,7 +137,7 @@ class SyncEngine:
             self.app.log_message(error_msg, 'error')
             logging.error(error_msg, exc_info=True)
             return False
-            
+
     def sync_folders(self, source_folder, target_folder, gitignore_patterns, additional_patterns,
                     delete_files=True, trial_run=False, progress_callback=None, cancel_check=None):
         try:

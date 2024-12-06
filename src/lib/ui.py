@@ -216,14 +216,15 @@ class SyncerUI:
             self.stop_monitoring()
             
     def start_monitoring(self):
-        if self.file_monitor.start(self.left_folder_var.get()):
+        if self.file_monitor and self.file_monitor.start(self.left_folder_var.get()):
             self.monitor_status.config(text="Status: Monitoring")
         else:
             self.monitor_var.set(False)
             
     def stop_monitoring(self):
-        self.file_monitor.stop()
-        self.monitor_status.config(text="Status: Not monitoring")
+        if self.file_monitor:
+            self.file_monitor.stop()
+            self.monitor_status.config(text="Status: Not monitoring")
         
     def sync_single_file(self, rel_path):
         gitignore_patterns = self.sync_engine.read_gitignore(self.left_folder_var.get())
@@ -303,7 +304,7 @@ class SyncerUI:
         
     def update_progress(self, value):
         self.progress_var.set(value)
-        
+
     def load_settings(self):
         config = self.config_manager.load_config()
         self.left_folder_var.set(config.get('left_folder', ''))
@@ -312,7 +313,12 @@ class SyncerUI:
         self.exclusions_text.insert('1.0', config.get('exclusions', ''))
         self.delete_files_var.set(config.get('delete_files', True))
         self.auto_sync_var.set(config.get('auto_sync', True))
-        if config.get('monitoring', False):
+        # Store monitoring state but don't start it yet
+        self._should_monitor = config.get('monitoring', False)
+            
+    def initialize_monitoring(self):
+        """Called after all components are set up to start monitoring if needed"""
+        if hasattr(self, '_should_monitor') and self._should_monitor:
             self.monitor_var.set(True)
             self.start_monitoring()
             
