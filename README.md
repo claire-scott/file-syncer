@@ -1,6 +1,6 @@
 # Folder Syncer
-
 A Python application for synchronizing folders with real-time monitoring capabilities. This tool helps you keep two folders in sync while respecting .gitignore patterns and custom exclusions.
+![Folder Syncer UI](resources/file-syncer-ui.png)
 
 ## Features
 
@@ -68,21 +68,16 @@ A Python application for synchronizing folders with real-time monitoring capabil
 
 ```
 .
-├── src/
-│   ├── main.py              # Application entry point
-│   └── lib/
-│       ├── __init__.py      # Package initialization
-│       ├── ui.py            # User interface implementation
-│       ├── sync_engine.py   # Core synchronization logic
-│       ├── file_monitor.py  # File system monitoring
-│       └── config_manager.py # Settings management
-├── resources/               # Application resources
-│   ├── icon.ico            # Windows icon
-│   └── icon.icns           # macOS icon
-├── build.py                # Build script for creating executables
-├── README.md               # This file
-├── LICENSE                 # MIT License
-└── .gitignore             # Git ignore patterns
+├── src/                  # Source code
+│   ├── main.py          # Entry point
+│   └── lib/             # Core modules
+├── resources/           # Application resources
+│   ├── icon.ico        # Windows icon
+│   └── icon.icns       # macOS icon
+├── build.py            # Build script
+├── README.md           # This file
+├── LICENSE            # MIT License
+└── .gitignore        # Git ignore patterns
 ```
 
 ## Building from Source
@@ -197,8 +192,7 @@ Choose the script that best matches your platform and needs:
 - Linux/macOS users: Use `build_unix.sh` after setting execute permission
 - Advanced users: Use `build.py` directly for more control
 
-[Rest of previous content unchanged...]
- ## Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch
